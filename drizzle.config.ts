@@ -3,7 +3,7 @@ import type { Config } from "drizzle-kit";
 
 export default {
   schema: "./src/backend/db/schema.ts",
-  out: "./drizzle",
+  out: "./src/drizzle",
   dialect: "postgresql",
   // url:`postgresql://postgres:mysecretpassword@localhost:5432/house_listings`,
   dbCredentials: {
