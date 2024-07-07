@@ -52,10 +52,7 @@ export function adminController(app: Elysia, service: AdminService) {
             const result = await service.create(body);
             set.status =
               result?.status?.code ?? HttpStatusCode.INTERNAL_SERVER_ERROR;
-            return NextResponse.json(result, {
-              status:
-                result?.status?.code || HttpStatusCode.INTERNAL_SERVER_ERROR,
-            });
+            return result;
           },
           {
             detail: {

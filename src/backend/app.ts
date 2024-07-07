@@ -3,9 +3,9 @@ import swagger from "@elysiajs/swagger";
 import { Elysia, t } from "elysia";
 import { runMigrations } from "./db/migrate";
 import { adminController } from "./entities/admin/admin.controller";
-import { adminService, buyerService } from "./setup";
+import { adminService } from "./setup";
 import { cookie } from "@elysiajs/cookie";
-import { buyerController } from "./entities/buyer/buyer.controller";
+// import { buyerController } from "../../buyer/buyer.controller";
 
 const app = new Elysia({ prefix: "/api" });
 app.use(cookie());
@@ -34,7 +34,7 @@ app.get("/", () => "hello Next", {
 
 runMigrations();
 adminController(app as any, adminService);
-buyerController(app as any, buyerService);
+// buyerController(app as any, buyerService);
 
 
 export { app };

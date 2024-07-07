@@ -10,4 +10,3 @@ export const PATCH = app.handle
 export const DELETE = app.handle
 export const OPTIONS = app.handle
 export const HEAD = app.handle
-export const ALL = app.handle
