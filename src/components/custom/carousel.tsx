@@ -9,11 +9,42 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { title } from "process";
+import { ArrowBigRight } from "lucide-react";
 
+const carouselDate= [
+  {
+    id: 1,
+    title: "Buy a house",
+    description: "We can help you find a house",
+    image: "/carousel/h1.jpg",
+
+  },
+  {
+    id: 2,
+    title: "Sell a house",
+    description: "We can help you sell a house",
+    image: "/carousel/h2.jpg",
+  },
+  {
+    id: 3,
+    title: "Rent a house",
+    description: "We can help you rent a house",
+    image: "/carousel/h3.jpg",
+  },  
+  {
+    id: 4,
+    title: "Buy a house",
+    description: "We can help you find a house",
+    image: "/carousel/h4.jpg",
+  },
+  
+]
 export function CarouselComponent() {
   const plugin = React.useRef(
-    Autoplay({ delay: 2000, stopOnInteraction: true, loop: true })
+    Autoplay({ delay: 5000, stopOnInteraction: true, loop: true })
   );
+
 
   return (
     <Carousel
@@ -23,21 +54,22 @@ export function CarouselComponent() {
       onMouseLeave={plugin.current.reset}
     >
       <CarouselContent>
-        {Array.from({ length: 5 }).map((_, index) => (
+        {carouselDate.map((_, index) => (
           <CarouselItem key={index}>
             <div className="p-1">
               <div className="card w-full glass">
                 <figure>
                   <img
-                    src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
+                    src={carouselDate[index].image}
                     alt="car!"
+                    className="w-full h-[700px]"
                   />
                 </figure>
                 <div className="card-body">
-                  <h2 className="card-title">Life hack</h2>
-                  <p>How to park your car at your garage?</p>
+                  <h2 className="card-title text-accent">{carouselDate[index].title}</h2>
+                  <p>{carouselDate[index].description}</p>
                   <div className="card-actions justify-end">
-                    <button className="btn btn-primary">Learn now!</button>
+                    <a href="/v/listing"><button  className="btn btn-accent text-white">Get Started <ArrowBigRight /> </button> </a>
                   </div>
                 </div>
               </div>
@@ -50,3 +82,5 @@ export function CarouselComponent() {
     </Carousel>
   );
 }
+
+

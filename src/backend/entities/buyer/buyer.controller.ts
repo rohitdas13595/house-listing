@@ -3,9 +3,9 @@ import { Elysia, t } from "elysia";
 import { BuyerModel } from "./IBuyer";
 import { BuyerService } from "./buyer.service";
 import { HttpStatusCode } from "../../core/statusCodes";
-import { SetType } from "../../utils/types";
+// import { SetType } from "../../utils/types";
 import { log } from "../../core/log";
-import { extractId } from "../../utils/extractId";
+// import { extractId } from "../../utils/extractId";
 import { Result } from "../../core/result";
 
 export function buyerController(app: Elysia, service: BuyerService) {
@@ -13,19 +13,19 @@ export function buyerController(app: Elysia, service: BuyerService) {
     return (
       app
         .use(BuyerModel)
-        .derive(async ({ cookie }) => {
-          const ids = await extractId(cookie);
+        // .derive(async ({ cookie }) => {
+        //   const ids = await extractId(cookie);
 
-          log.info({
-            message: "extracted ids",
-            ids,
-          });
+        //   log.info({
+        //     message: "extracted ids",
+        //     ids,
+        //   });
 
-          return {
-            buyerId: ids.buyerId,
-            sellerId: ids.sellerId,
-          };
-        })
+        //   return {
+        //     buyerId: ids.buyerId,
+        //     sellerId: ids.sellerId,
+        //   };
+        // })
 
         //Buyer get
         .get(
@@ -80,7 +80,7 @@ export function buyerController(app: Elysia, service: BuyerService) {
         .post(
           "/verifyOtp",
           async ({ set, body: { phone, otp } }) => {
-            const result = await service.verifyOtp(phone, otp, set as SetType);
+            const result = await service.verifyOtp(phone, otp,set);
             set.status =
               result.status?.code ?? HttpStatusCode.INTERNAL_SERVER_ERROR;
             return result;
@@ -94,7 +94,7 @@ export function buyerController(app: Elysia, service: BuyerService) {
         )
         .get(
           "/getHousesSeen",
-          async ({ set, buyerId, query }) => {
+          async ({ set, buyerId, query } :any) => {
             if (!buyerId) {
               set.status = HttpStatusCode.UNPROCESSABLE_ENTITY;
               return new Result(
@@ -117,7 +117,7 @@ export function buyerController(app: Elysia, service: BuyerService) {
         )
         .get(
           "getHouseWishlist",
-          async ({ set, buyerId, query }) => {
+          async ({ set, buyerId, query }:any) => {
             if (!buyerId) {
               set.status = HttpStatusCode.UNPROCESSABLE_ENTITY;
               return new Result(

@@ -1,17 +1,16 @@
-import { Buyer } from "@prisma/client";
 import { Service } from "../../core/service";
 import { BuyerDao } from "./buyer.dao";
-import { prisma } from "../../db/prisma";
 import { Result } from "../../core/result";
 import { HttpStatusCode } from "../../core/statusCodes";
-import { redis } from "../../redis/redis";
-import { password } from "bun";
+// import { redis } from
 import { log } from "../../core/log";
 import { Settings } from "../../core/settings";
 import { signJwt, verifyJwt } from "../../core/jwt";
-import { SetType } from "../../utils/types";
+import { Buyer } from "../../db/schema";
+import { db } from "@/backend/db/connection";
+import { eq } from "drizzle-orm";
 
-export class BuyerService extends Service<Buyer> {
+export class BuyerService extends Service<typeof Buyer> {
   dao: BuyerDao;
   constructor(dao: BuyerDao) {
     super(dao);
@@ -34,19 +33,21 @@ export class BuyerService extends Service<Buyer> {
 
   async sendOtp(phone: string) {
     try {
-      const buyer = await prisma.buyer.findFirst({
-        where: {
-          phone,
-        },
-      });
-      let buyerId: string | undefined = buyer?.id;
+      const buyer = await db.select().from(Buyer).where(eq(Buyer.phone, phone));
+
+      let buyerId: string | undefined =
+        buyer && buyer[0] ? buyer[0]?.id : undefined;
 
       if (!buyerId) {
-        const createBuyer = await prisma.buyer.create({
-          data: {
-            phone,
-          },
-        });
+        const createBuyer = await db.insert(Buyer).values({
+          phone,
+        })
+
+        // const createBuyer = await prisma.buyer.create({
+        //   data: {
+        //     phone,
+        //   },
+        // });
         if (!createBuyer?.id) {
           return new Result(
             true,

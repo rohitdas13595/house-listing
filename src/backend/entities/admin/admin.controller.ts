@@ -47,8 +47,7 @@ export function adminController(app: Elysia, service: AdminService) {
             // },
           }
         )
-        .post(
-          "",
+        .post("",
           async ({ body, set }) => {
             const result = await service.create(body);
             set.status =

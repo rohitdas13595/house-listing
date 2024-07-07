@@ -16,7 +16,26 @@ export const schema = pgSchema("drizzle_orm");
 
 export const AdminRole = schema.table("admin_role", {
   id: uuid("pk").primaryKey().notNull().defaultRandom(),
-  name: varchar("name", { length: 100 }).notNull(),
+  name: varchar("name", { length: 100 }).unique().notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const Permission = schema.table("permission", {
+  id: uuid("pk").primaryKey().notNull().defaultRandom(),
+  name: varchar("name", { length: 100 }).unique().notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const AdminRolePermission = schema.table("admin_role_permission", {
+  id: uuid("pk").primaryKey().notNull().defaultRandom(),
+  adminRoleId: uuid("admin_role_id")
+    .notNull()
+    .references(() => AdminRole.id),
+  permissionId: uuid("permission_id")
+    .notNull()
+    .references(() => Permission.id),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
@@ -101,8 +120,8 @@ export const SellerRating = schema.table("seller_rating", {
 
 export const Buyer = schema.table("buyer", {
   id: uuid("pk").primaryKey().notNull().defaultRandom(),
-  email: varchar("email", { length: 100 }).notNull().unique(),
-  phone: varchar("phone", { length: 100 }).notNull(),
+  email: varchar("email", { length: 100 }),
+  phone: varchar("phone", { length: 100 }).notNull().unique(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
@@ -231,6 +250,8 @@ export const HouseWishlist = schema.table("house_wishlist", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
+
+
 export type DbTables =
   | typeof AdminRole
   | typeof Buyer
@@ -241,4 +262,9 @@ export type DbTables =
   | typeof HouseSeen
   | typeof HouseWishlist
   | typeof Seller
-  | typeof SellerRating;
+  | typeof SellerRating
+  | typeof Permission
+  | typeof AdminRolePermission
+  | typeof Admin
+  | typeof AdminKey
+
