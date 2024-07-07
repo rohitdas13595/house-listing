@@ -1,12 +1,13 @@
 import pg from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
 import * as schema from "./schema";
+import { settings } from "../settings";
 
 const pool = new pg.Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "house_listings",
-  password: "mysecretpassword",
+  user:  settings.postgresUser,
+  host: settings.postgresHost,
+  database: settings.postgresDatabase,
+  password: settings.postgresPassword,
   port: 5432,
 });
 
