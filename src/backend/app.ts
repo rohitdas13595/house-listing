@@ -36,5 +36,5 @@ runMigrations();
 adminController(app as any, adminService);
 // buyerController(app as any, buyerService);
 
-
+app.compile();
 export { app };
