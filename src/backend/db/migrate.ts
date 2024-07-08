@@ -9,7 +9,7 @@ import { db, connection, pool } from './connection';
 
 
 export  function  runMigrations() {
-    return migrate(db, { migrationsFolder: './drizzle', });
+    return migrate(db, { migrationsFolder: './src/drizzle', });
 }
 
 // pool.end();

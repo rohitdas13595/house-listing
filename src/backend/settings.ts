@@ -11,6 +11,7 @@ export  class Settings {
     postgresDatabase: string;
     postgresHost: string;
     postgresPort: number;
+    caCertificate: string;
 
    constructor(){
 
@@ -19,6 +20,7 @@ export  class Settings {
        this.postgresDatabase = this.getValue("POSTGRES_DATABASE", "postgres");
        this.postgresHost = this.getValue("POSTGRES_HOST", "localhost");
        this.postgresPort = Number(this.getValue("POSTGRES_PORT", "5432"));
+       this.caCertificate = this.getValue("CA_CERTIFICATE", "");
    }
 
 
